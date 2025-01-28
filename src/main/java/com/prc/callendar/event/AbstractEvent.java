@@ -58,6 +58,10 @@ public abstract class AbstractEvent implements Event {
         this.modifiedAt = ZonedDateTime.now();
     }
 
+    public void delete(boolean deletedYn) {
+        this.deletedYn = deletedYn;
+    }
+
     protected abstract void update(AbstractAuditableEvent update);
 
     public abstract boolean support(EventType type);

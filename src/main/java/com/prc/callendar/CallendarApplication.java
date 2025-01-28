@@ -38,6 +38,18 @@ public class CallendarApplication {
                 )
         );
         meeting.print();
-        schedule.printAll();
+        meeting.delete(true);
+        System.out.println("삭제 후 수정");
+        meetings.get(0).validateAndUpdate(
+                new UpdateMeeting(
+                        "delete title",
+                        ZonedDateTime.now(),
+                        ZonedDateTime.now().plusHours(1),
+                        null,
+                        "delete",
+                        "delete agenda"
+                )
+        );
+        meeting.print();
     }
 }
