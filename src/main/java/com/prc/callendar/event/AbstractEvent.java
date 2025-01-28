@@ -1,5 +1,6 @@
 package com.prc.callendar.event;
 
+import com.prc.callendar.event.update.AbstractAuditableEvent;
 import com.prc.callendar.exception.InvalidEventException;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,25 @@ public abstract class AbstractEvent implements Event {
 
         this.deletedYn = false;
     }
+
+    public void validateAndUpdate(AbstractAuditableEvent update) {
+        if (deletedYn) {
+            throw new InvalidEventException("Event has been deleted");
+        }
+
+        defaultUpdate(update);
+        update(update);
+    }
+
+    private void defaultUpdate(AbstractAuditableEvent update) {
+        this.title = update.getTitle();
+        this.startAt = update.getStartAt();
+        this.endAt = update.getEndAt();
+        this.duration = Duration.between(this.startAt, this.endAt);
+        this.modifiedAt = ZonedDateTime.now();
+    }
+
+    protected abstract void update(AbstractAuditableEvent update);
 
     public abstract boolean support(EventType type);
 }

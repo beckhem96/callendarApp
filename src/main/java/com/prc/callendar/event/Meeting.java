@@ -1,5 +1,8 @@
 package com.prc.callendar.event;
 
+import com.prc.callendar.event.update.AbstractAuditableEvent;
+import com.prc.callendar.event.update.UpdateMeeting;
+
 import java.time.ZonedDateTime;
 import java.util.Set;
 
@@ -21,7 +24,17 @@ public class Meeting extends AbstractEvent {
     }
 
     @Override
+    protected void update(AbstractAuditableEvent update) {
+        UpdateMeeting meetingUpdate = (UpdateMeeting) update;
+
+        this.participanths = meetingUpdate.getParticipants();
+        this.meetingRoom = meetingUpdate.getMeetingRoom();
+        this.agenda = meetingUpdate.getAgenda();
+    }
+
+    @Override
     public boolean support(EventType type) {
         return type == EventType.MEETING;
     }
+
 }

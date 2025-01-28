@@ -1,6 +1,7 @@
 package com.prc.callendar;
 
 import com.prc.callendar.event.*;
+import com.prc.callendar.event.update.UpdateMeeting;
 import com.prc.callendar.reader.EventCsvReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,20 @@ public class CallendarApplication {
 
         List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
         meetings.forEach(schedule::add);
+        Meeting meeting = meetings.get(0);
+        meeting.print();
+        System.out.println("수정");
+        meetings.get(0).validateAndUpdate(
+                new UpdateMeeting(
+                        "new title",
+                        ZonedDateTime.now(),
+                        ZonedDateTime.now().plusHours(1),
+                        null,
+                        "A",
+                        "new agenda"
+                )
+        );
+        meeting.print();
         schedule.printAll();
     }
 }

@@ -1,5 +1,7 @@
 package com.prc.callendar.event;
 
+import com.prc.callendar.event.update.AbstractAuditableEvent;
+
 import java.time.ZonedDateTime;
 import java.util.Set;
 
@@ -16,6 +18,11 @@ public class Todo extends AbstractEvent {
     @Override
     public void print() {
         System.out.println("[할 일] " + getTitle() + " : " + description);
+    }
+
+    @Override
+    protected void update(AbstractAuditableEvent update) {
+
     }
 
     @Override
