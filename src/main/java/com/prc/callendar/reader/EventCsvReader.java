@@ -45,8 +45,6 @@ public class EventCsvReader {
             );
         }
 
-
-
         // Meeting으로 변환 부분
 
         return result;
