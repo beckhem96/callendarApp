@@ -3,6 +3,7 @@ package com.prc.callendar;
 import com.prc.callendar.event.*;
 import com.prc.callendar.event.update.UpdateMeeting;
 import com.prc.callendar.reader.EventCsvReader;
+import com.prc.callendar.reader.RawCsvReader;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,7 +20,7 @@ public class CallendarApplication {
     public static void main(String[] args) throws IOException {
         Schedule schedule = new Schedule();
 
-        EventCsvReader csvReader = new EventCsvReader();
+        EventCsvReader csvReader = new EventCsvReader(new RawCsvReader());
         String meetingCsvPath = "/data/meeting.csv";
 
         List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
