@@ -2,6 +2,9 @@ package com.prc.callendar.reader;
 
 import com.opencsv.CSVReader;
 import com.prc.callendar.event.Meeting;
+import com.prc.callendar.event.NoDisturbance;
+import com.prc.callendar.event.OutOfOffice;
+import com.prc.callendar.event.Todo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +55,90 @@ public class EventCsvReader {
             );
         }
 
-        // Meeting으로 변환 부분
+        return result;
+    }
+
+    public List<NoDisturbance> readNoDisturbance(String path) throws IOException {
+        List<NoDisturbance> result = new ArrayList<NoDisturbance>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] row = read.get(i);
+
+            result.add(
+                    new NoDisturbance(
+                            Integer.parseInt(row[0]),
+                            row[2],
+                            ZonedDateTime.of(LocalDateTime.parse(
+                                            row[3],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                                    ZoneId.of("Asia/Seoul")),
+                            ZonedDateTime.of(LocalDateTime.parse(row[4], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), ZoneId.of("Asia/Seoul")))
+            );
+        }
+
+        return result;
+    }
+
+    public List<OutOfOffice> readOutOfOffices(String path) throws IOException {
+        List<OutOfOffice> result = new ArrayList<OutOfOffice>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] row = read.get(i);
+
+            result.add(
+                    new OutOfOffice(
+                            Integer.parseInt(row[0]),
+                            row[2],
+                            ZonedDateTime.of(LocalDateTime.parse(
+                                            row[3],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                                    ZoneId.of("Asia/Seoul")),
+                            ZonedDateTime.of(LocalDateTime.parse(row[4], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), ZoneId.of("Asia/Seoul")))
+            );
+        }
+
+        return result;
+    }
+
+    public List<Todo> readToDos(String path) throws IOException {
+        List<Todo> result = new ArrayList<Todo>();
+
+        // 데이터를 읽는 부분
+        List<String[]> read = rawCsvReader.readAll(path);
+
+        for (int i = 0; i < read.size(); i++) {
+            if (skipHeader(i)) {
+                continue;
+            }
+
+            String[] row = read.get(i);
+
+            result.add(
+                    new Todo(
+                            Integer.parseInt(row[0]),
+                            row[2],
+                            ZonedDateTime.of(LocalDateTime.parse(
+                                            row[4],
+                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+                                    ZoneId.of("Asia/Seoul")),
+                            ZonedDateTime.of(LocalDateTime.parse(row[5], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), ZoneId.of("Asia/Seoul"))
+                    ,row[3])
+            );
+        }
 
         return result;
     }
